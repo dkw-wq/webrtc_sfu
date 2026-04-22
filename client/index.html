@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mediasoup SFU Login Demo</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #111;
+      color: #eee;
+      padding: 20px;
+    }
+
+    .panel {
+      border: 1px solid #2c2c2c;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 14px;
+      background: #1a1a1a;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #0f0f0f;
+      color: #eee;
+      min-width: 170px;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #status {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    video {
+      background: black;
+      border-radius: 6px;
+    }
+
+    #localVideo {
+      width: 320px;
+      border: 2px solid #4caf50;
+    }
+
+    #remoteContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    #remoteContainer video {
+      width: 300px;
+      border: 2px solid #2196f3;
+    }
+
+    .list-box {
+      margin-top: 8px;
+      min-height: 36px;
+    }
+
+    .member-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border: 1px solid #313131;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .member-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .member-badge {
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #2b2b2b;
+      color: #ddd;
+    }
+
+    .member-state {
+      font-size: 13px;
+      color: #bdbdbd;
+    }
+
+    #mediaState {
+      margin-top: 8px;
+      color: #cfcfcf;
+      font-size: 14px;
+    }
+
+    #glCanvas {
+      width: 100%;
+      max-width: 720px;
+      height: 360px;
+      border: 2px solid #3a3a3a;
+      border-radius: 8px;
+      display: block;
+      background: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Mediasoup SFU Demo</h2>
+
+  <div class="panel">
+    <h3>Login</h3>
+    <form id="loginForm" class="row">
+      <input id="username" type="text" placeholder="username" value="admin" />
+      <input id="password" type="password" placeholder="password" />
+      <button id="btnLogin" type="submit">Login</button>
+      <button id="btnLogout" type="button" disabled>Logout</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h3>Online Users</h3>
+    <div class="row">
+      <button id="btnRefreshUsers" disabled>Refresh</button>
+    </div>
+    <div id="onlineUsers" class="list-box">No online users</div>
+  </div>
+
+  <div class="panel">
+    <h3>Invites</h3>
+    <div id="incomingInvites" class="list-box"></div>
+  </div>
+
+  <div class="panel">
+    <h3>Room</h3>
+    <div class="row">
+      <input id="roomId" type="text" value="" readonly />
+      <button id="btnConnect" disabled>Connect</button>
+      <button id="btnPublish" disabled>Publish</button>
+      <button id="btnLeaveRoom" type="button" disabled>Leave Room</button>
+      <button id="btnEndRoom" type="button" disabled>End Call</button>
+    </div>
+    <div id="currentRoom" style="margin-top:8px;">Current room: (none)</div>
+  </div>
+
+  <div class="panel">
+    <h3>Room Members</h3>
+    <div id="roomMembers" class="list-box">No room members</div>
+  </div>
+
+  <div class="panel">
+    <h3>Media Controls</h3>
+    <div class="row">
+      <button id="btnToggleMic" type="button" disabled>Mute Mic</button>
+      <button id="btnToggleCamera" type="button" disabled>Turn Camera Off</button>
+    </div>
+    <div id="mediaState">Local media not started</div>
+  </div>
+
+  <div id="status">Please login</div>
+
+  <h3>Local Stream</h3>
+  <video
+    id="localVideo"
+    autoplay
+    playsinline
+    muted
+  ></video>
+
+  <h3>Remote Streams</h3>
+  <div id="remoteContainer"></div>
+
+  <!-- Vite / ES Module -->
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
